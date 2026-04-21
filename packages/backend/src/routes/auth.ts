@@ -36,11 +36,12 @@ export const authRoutes: FastifyPluginAsync = async (fastify) => {
     const state = crypto.randomBytes(16).toString('hex')
 
     // CSRF 対策: state を短命 cookie に保存
+    const isProd = process.env.NODE_ENV === 'production'
     reply.setCookie(STATE_COOKIE, state, {
       httpOnly: true,
-      secure: process.env.NODE_ENV === 'production',
-      sameSite: 'lax',
-      maxAge: 60 * 10, // 10分
+      secure: isProd,
+      sameSite: isProd ? 'none' : 'lax',
+      maxAge: 60 * 10,
       path: '/',
     })
 
@@ -123,10 +124,11 @@ export const authRoutes: FastifyPluginAsync = async (fastify) => {
       // JWT を発行して cookie にセット
       const jwtToken = await reply.jwtSign({ userId: user.id })
 
+      const isProd = process.env.NODE_ENV === 'production'
       reply.setCookie(TOKEN_COOKIE, jwtToken, {
         httpOnly: true,
-        secure: process.env.NODE_ENV === 'production',
-        sameSite: 'lax',
+        secure: isProd,
+        sameSite: isProd ? 'none' : 'lax',
         maxAge: TOKEN_MAX_AGE,
         path: '/',
       })
