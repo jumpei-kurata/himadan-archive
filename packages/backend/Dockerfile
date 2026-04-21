@@ -29,9 +29,11 @@ COPY package.json pnpm-lock.yaml pnpm-workspace.yaml ./
 COPY packages/backend/package.json ./packages/backend/
 RUN pnpm install --frozen-lockfile --filter backend --prod
 
-COPY --from=builder /app/packages/backend/dist ./packages/backend/dist
-COPY --from=builder /app/packages/backend/node_modules/.prisma ./packages/backend/node_modules/.prisma
+# prisma generate を本番deps上で実行してクライアントを生成
 COPY packages/backend/prisma ./packages/backend/prisma
+RUN cd packages/backend && pnpm exec prisma generate
+
+COPY --from=builder /app/packages/backend/dist ./packages/backend/dist
 
 WORKDIR /app/packages/backend
 EXPOSE 3001
