@@ -7,14 +7,28 @@ import { LoginPage } from './pages/LoginPage'
 import { channelColor } from './utils/format'
 import type { Channel, CurrentUser } from './types'
 
-function Sidebar({ channels, user }: { channels: Channel[]; user: CurrentUser | null }) {
+function Sidebar({
+  channels,
+  user,
+  isOpen,
+  onClose,
+}: {
+  channels: Channel[]
+  user: CurrentUser | null
+  isOpen: boolean
+  onClose: () => void
+}) {
   const handleLogout = async () => {
     await api.auth.logout()
     window.location.href = '/login'
   }
 
   return (
-    <aside className="hidden md:flex flex-col h-full w-64 bg-slate-50 border-r border-slate-200 flex-shrink-0">
+    <>
+      {isOpen && (
+        <div className="fixed inset-0 z-30 bg-black/50 md:hidden" onClick={onClose} />
+      )}
+      <aside className={`flex flex-col h-full w-64 bg-slate-50 border-r border-slate-200 flex-shrink-0 fixed inset-y-0 left-0 z-40 transition-transform md:static md:translate-x-0 ${isOpen ? 'translate-x-0' : '-translate-x-full md:translate-x-0'}`}>
       <div className="px-4 py-4 mb-1">
         <h2 className="text-xl font-black text-blue-900 tracking-tight">ひまプロアーカイブ</h2>
         <p className="text-[10px] text-on-surface-variant font-medium mt-0.5">ひまプロ談話室</p>
@@ -23,6 +37,7 @@ function Sidebar({ channels, user }: { channels: Channel[]; user: CurrentUser | 
       <nav className="px-2 space-y-0.5">
         <NavLink
           to="/search"
+          onClick={onClose}
           className={({ isActive }) =>
             `flex items-center gap-3 px-3 py-2 rounded-md text-xs transition-colors ${
               isActive
@@ -45,6 +60,7 @@ function Sidebar({ channels, user }: { channels: Channel[]; user: CurrentUser | 
           <NavLink
             key={ch.id}
             to={`/channels/${ch.id}`}
+            onClick={onClose}
             className={({ isActive }) =>
               `flex items-center gap-2 px-3 py-1.5 rounded-md text-xs transition-colors ${
                 isActive
@@ -81,13 +97,20 @@ function Sidebar({ channels, user }: { channels: Channel[]; user: CurrentUser | 
         </button>
       </div>
     </aside>
+    </>
   )
 }
 
-function TopNav({ channels }: { channels: Channel[] }) {
+function TopNav({ onMenuToggle }: { onMenuToggle: () => void }) {
   return (
     <header className="sticky top-0 z-30 flex justify-between items-center w-full px-4 h-12 bg-white border-b border-slate-200">
-      <div className="flex items-center gap-4">
+      <div className="flex items-center gap-3">
+        <button
+          className="md:hidden p-1 rounded hover:bg-slate-100 transition-colors"
+          onClick={onMenuToggle}
+        >
+          <span className="material-symbols-outlined text-[22px] text-slate-600">menu</span>
+        </button>
         <h1 className="text-lg font-black text-blue-900">himadan-archive</h1>
       </div>
     </header>
@@ -95,11 +118,13 @@ function TopNav({ channels }: { channels: Channel[] }) {
 }
 
 function AppLayout({ channels, user }: { channels: Channel[]; user: CurrentUser | null }) {
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
+
   return (
     <div className="h-screen flex flex-col overflow-hidden bg-background font-sans">
-      <TopNav channels={channels} />
+      <TopNav onMenuToggle={() => setIsMobileMenuOpen((v) => !v)} />
       <div className="flex flex-1 overflow-hidden">
-        <Sidebar channels={channels} user={user} />
+        <Sidebar channels={channels} user={user} isOpen={isMobileMenuOpen} onClose={() => setIsMobileMenuOpen(false)} />
         <Routes>
           <Route path="/channels/:channelId" element={<ArchivePage channels={channels} />} />
           <Route path="/channels" element={<Navigate to={channels[0] ? `/channels/${channels[0].id}` : '/search'} replace />} />
