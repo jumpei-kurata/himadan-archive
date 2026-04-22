@@ -51,6 +51,7 @@ export const authRoutes: FastifyPluginAsync = async (fastify) => {
       response_type: 'code',
       scope: SCOPES,
       state,
+      team: process.env.SLACK_TEAM_ID!,
     })
 
     return reply.redirect(`${SLACK_AUTHORIZE_URL}?${params}`)
