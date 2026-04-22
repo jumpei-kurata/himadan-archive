@@ -11,6 +11,9 @@ on:
 jobs:
   deploy:
     runs-on: ubuntu-latest
+    env:
+      VERCEL_ORG_ID: team_LaHcFsklaoExxO9oPF3UbdY9
+      VERCEL_PROJECT_ID: prj_xz5FqeMxgpCTkpa7aJDfK41twCfi
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
