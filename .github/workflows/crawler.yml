@@ -12,6 +12,6 @@ jobs:
       - uses: superfly/flyctl-actions/setup-flyctl@master
 
       - name: Run diff crawler on Fly.io
-        run: fly ssh console --app himadan-archive -C "node dist/crawler/run-diff.js"
+        run: flyctl ssh console --app himadan-archive -C "node dist/crawler/run-diff.js"
         env:
           FLY_API_TOKEN: ${{ secrets.FLY_API_TOKEN }}
