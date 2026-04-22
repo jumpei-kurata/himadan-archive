@@ -72,7 +72,7 @@ export function ActivityHeatmap({ channelId }: Props) {
         <span className="text-[11px] text-on-surface-variant">過去12週間</span>
       </div>
 
-      <div className="flex gap-6 items-start">
+      <div className="flex flex-col gap-3 md:flex-row md:gap-6 md:items-start">
         {/* グリッド */}
         <div className="overflow-x-auto pb-1 flex-shrink-0">
           <div className="flex gap-1 mb-1">
@@ -107,7 +107,7 @@ export function ActivityHeatmap({ channelId }: Props) {
         </div>
 
         {/* 統計 */}
-        <div className="flex-1 grid grid-cols-3 gap-3 self-center">
+        <div className="grid grid-cols-3 gap-3 md:flex-1 md:self-center">
           <div className="bg-surface-container rounded-lg p-3 text-center">
             <div className="text-[11px] text-on-surface-variant mb-1">合計投稿</div>
             <div className="text-lg font-bold text-on-surface">{total.toLocaleString()}<span className="text-xs font-normal ml-0.5">件</span></div>

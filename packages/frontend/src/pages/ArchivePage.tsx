@@ -50,7 +50,7 @@ export function ArchivePage({ channels }: Props) {
 
   return (
     <div className="flex-1 overflow-y-auto bg-surface-bright relative">
-      <div className="max-w-3xl mx-auto py-6 px-6">
+      <div className="max-w-3xl mx-auto py-6 px-4 sm:px-6">
         {currentChannel && (
           <div className="flex items-center gap-2 mb-6">
             <span className="material-symbols-outlined text-on-surface-variant">tag</span>
