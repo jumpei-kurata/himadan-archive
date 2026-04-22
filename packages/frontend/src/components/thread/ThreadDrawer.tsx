@@ -27,17 +27,17 @@ export function ThreadDrawer({ message, channelId, channelName, onClose }: Props
 
   return (
     <>
-      {/* オーバーレイ */}
+      {/* オーバーレイ（モバイルのみ） */}
       {isOpen && (
         <div
-          className="fixed inset-0 bg-slate-900/10 backdrop-blur-[1px] z-40"
+          className="fixed inset-0 bg-slate-900/10 backdrop-blur-[1px] z-40 sm:hidden"
           onClick={onClose}
         />
       )}
 
       {/* ドロワー */}
       <div
-        className={`fixed right-0 top-0 h-full w-full sm:w-[600px] lg:w-[680px] bg-white sm:border-l border-slate-200 shadow-2xl z-50 flex flex-col transition-transform duration-300 ${
+        className={`fixed right-0 top-0 h-full w-full sm:w-[700px] lg:w-[780px] bg-white sm:border-l border-slate-200 shadow-2xl z-50 flex flex-col transition-transform duration-300 ${
           isOpen ? 'translate-x-0' : 'translate-x-full'
         }`}
       >
