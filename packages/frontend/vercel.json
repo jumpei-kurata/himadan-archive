@@ -1,4 +1,5 @@
 {
+  "alias": ["himadan-archive.vercel.app"],
   "rewrites": [
     { "source": "/(.*)", "destination": "/index.html" }
   ]
