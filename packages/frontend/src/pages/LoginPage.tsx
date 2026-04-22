@@ -22,6 +22,9 @@ export function LoginPage() {
         <p className="mt-6 text-xs text-on-surface-variant">
           ひまプロ談話室メンバーのみアクセスできます
         </p>
+        <p className="mt-3 text-xs text-on-surface-variant">
+          ワークスペースURL：<span className="font-mono select-all">himapro.slack.com</span>
+        </p>
       </div>
     </div>
   )
